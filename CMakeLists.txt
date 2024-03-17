@@ -29,4 +29,5 @@ enable_testing()
 add_executable(vector src/vector.cpp)
 add_executable(if src/if.cpp)
 add_executable(optional src/optional.cpp)
+add_executable(shared-mutex src/shared-mutex.cpp)
 
