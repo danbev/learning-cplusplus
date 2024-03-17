@@ -1,17 +1,23 @@
-vector: src/vector.cpp
-	g++ -std=c++17 -o $@ $<
+CXX = g++
+CXXFLAGS = -std=c++17
+SRCDIR = src
+BINDIR = bin
 
-seq-id: src/sequence-ids.cpp
-	g++ -std=c++17 -o $@ $<
+SOURCES := $(wildcard $(SRCDIR)/*.cpp)
+TARGETS := $(patsubst $(SRCDIR)/%.cpp, %, $(SOURCES))
 
-if: src/if.cpp
-	g++ -std=c++17 -o $@ $<
+.PHONY: all clean
 
-init: src/init.cpp
-	g++ -std=c++17 -o $@ $<
+all: $(TARGETS)
 
-lambda: src/lambda.cpp
-	g++ -std=c++17 -o $@ $<
+$(TARGETS): % : $(SRCDIR)/%.cpp | bindir
+	$(CXX) $(CXXFLAGS) -o ${BINDIR}/$@ $<
 
-optional: src/optional.cpp
-	g++ -std=c++17 -o $@ $<
+bindir: bin
+
+bin: 
+	@mkdir -p $(BINDIR)
+
+clean:
+	${RM} -rf $(BINDIR)
+
