@@ -26,4 +26,7 @@ int main() {
     std::cout << "str = " << str.value_or("Empty") << std::endl;
     str.emplace("Emplaced");
     std::cout << "str = " << str.value() << std::endl;
+
+    auto op = std::make_optional(42);
+    std::cout << "op = " << op.value() << std::endl;
 }
