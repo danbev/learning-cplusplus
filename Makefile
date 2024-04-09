@@ -1,5 +1,4 @@
-CXX = g++
-CXXFLAGS = -std=c++17
+CC = g++
 SRCDIR = src
 BINDIR = bin
 
@@ -11,7 +10,7 @@ TARGETS := $(patsubst $(SRCDIR)/%.cpp, %, $(SOURCES))
 all: $(TARGETS)
 
 $(TARGETS): % : $(SRCDIR)/%.cpp | bindir
-	$(CXX) $(CXXFLAGS) -o ${BINDIR}/$@ $<
+	$(CC) -o ${BINDIR}/$@ $<
 
 bindir: bin
 
