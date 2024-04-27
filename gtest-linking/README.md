@@ -43,8 +43,10 @@ often, enough to cause a performace issue with having to switch into kernel
 mode. An example of a frequently called function is gettimeofday which can be
 called directly from user code and also is called from the c library. 
 
-`libstdc++` is the C++ standard library and `libc.so` is the C standard
-`/lib64/ld-linux-x86-64.so.2` is the program interpreter (0x0000773af72ef000)
+`libstdc++` is the C++ standard library and `libc.so` is the C standard. 
+
+`/lib64/ld-linux-x86-64.so.2` is the program interpreter (0x0000773af72ef000).
+
 `libgcc_s.so.1` is the `GNU C Library` which is a library that contains support
 functions for the GNU Compiler Collection (GCC).
 
