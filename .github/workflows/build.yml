@@ -22,6 +22,7 @@ jobs:
           allowUpdates: true
           updateOnlyUnreleased: true
           draft: true
+          tag: "pre-v.1.0.0"
 
       - name: Create file
         run: |
