@@ -14,8 +14,15 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: ncipollo/release-action@v1
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Create file
+        run: |
+          echo > bajja.txt
+
+      - name: Release
+        uses: ncipollo/release-action@v1
         with:
           artifacts: "bajja.txt"
           prerelease: true
@@ -24,7 +31,4 @@ jobs:
           draft: true
           tag: "pre-v.1.0.0"
 
-      - name: Create file
-        run: |
-          echo > bajja.txt
 
