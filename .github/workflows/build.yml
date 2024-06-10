@@ -2,14 +2,15 @@ name: Build
 
 on: 
   pull_request:
+  push:
+    tags:
+    - '*'
+  workflow_dispatch:
     inputs:
       manual_tag:
         description: 'Manual tag for releases'
         required: false
         default: 'manual-trigger'
-  push:
-    tags:
-    - '*'
 
 jobs:
 
