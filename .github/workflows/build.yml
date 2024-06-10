@@ -51,7 +51,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "bajja.txt, bajja2.txt"
-          prerelease: true
+          prerelease: false
           allowUpdates: true
           updateOnlyUnreleased: true
           draft: true
