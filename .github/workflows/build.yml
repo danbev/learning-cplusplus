@@ -18,6 +18,10 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "bajja.txt"
+          prerelease: true
+          allowUpdates: true
+          updateOnlyUnreleased: true
+          draft: true
 
       - name: Create file
         run: |
