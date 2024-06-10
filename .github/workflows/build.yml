@@ -2,6 +2,11 @@ name: Build
 
 on: 
   pull_request:
+    inputs:
+      manual_tag:
+        description: 'Manual tag for releases'
+        required: false
+        default: 'manual-trigger'
   push:
     tags:
     - '*'
@@ -16,6 +21,18 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
+      - name: Set Release Name for Pull Request
+        if: github.event_name == 'pull_request'
+        run: echo "RELEASE_NAME=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
+
+      - name: Set Release Name for Tag Push
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        run: echo "RELEASE_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - name: Set Release Name for Manual Trigger
+        if: github.event_name == 'workflow_dispatch'
+        run: echo "RELEASE_NAME=${{ github.event.inputs.manual_tag }}" >> $GITHUB_ENV
 
       - name: Get PR title
         run: |
@@ -37,6 +54,4 @@ jobs:
           allowUpdates: true
           updateOnlyUnreleased: true
           draft: true
-          tag: "pre-v.1.0.0"
-
-
+          tag: "${{ env.RELEASE_NAME }}"
