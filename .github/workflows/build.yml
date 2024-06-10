@@ -54,5 +54,5 @@ jobs:
           prerelease: false
           allowUpdates: true
           updateOnlyUnreleased: true
-          draft: true
+          draft: ${{ github.event_name == 'pull_request' }}
           tag: "${{ env.RELEASE_NAME }}"
