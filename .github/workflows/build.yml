@@ -14,11 +14,12 @@ jobs:
       contents: write
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: ncipollo/release-action@v1
-      with:
-        artifacts: "bajja.txt"
+      - uses: actions/checkout@v3
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "bajja.txt"
 
-       run: |
-         echo > bajja.txt
+      - name: Create file
+        run: |
+          echo > bajja.txt
 
