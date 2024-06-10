@@ -1,0 +1,24 @@
+name: Build
+
+on: 
+  pull_request:
+  push:
+    tags:
+    - '*'
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "bajja.txt"
+
+       run: |
+         echo > bajja.txt
+
