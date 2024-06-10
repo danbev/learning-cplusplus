@@ -17,6 +17,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Get PR title
+        run: echo "Pull Request Title: ${{ github.event.pull_request.title }}"
+
       - name: Create file
         run: |
           echo > bajja.txt
