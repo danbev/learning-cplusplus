@@ -1,0 +1,58 @@
+name: Build
+
+on: 
+  pull_request:
+  push:
+    tags:
+    - '*'
+  workflow_dispatch:
+    inputs:
+      manual_tag:
+        description: 'Manual tag for releases'
+        required: false
+        default: 'manual-trigger'
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Release Name for Pull Request
+        if: github.event_name == 'pull_request'
+        run: echo "RELEASE_NAME=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
+
+      - name: Set Release Name for Tag Push
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        run: echo "RELEASE_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - name: Set Release Name for Manual Trigger
+        if: github.event_name == 'workflow_dispatch'
+        run: echo "RELEASE_NAME=${{ github.event.inputs.manual_tag }}" >> $GITHUB_ENV
+
+      - name: Get PR title
+        run: |
+          echo "Pull Request Title: ${{ github.event.pull_request.title }}"
+
+      - name: Create file
+        run: |
+          echo > bajja3.txt
+
+      - name: Create file2
+        run: |
+          echo > bajja4.txt
+
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "bajja3.txt, bajja4txt"
+          prerelease: false
+          allowUpdates: true
+          updateOnlyUnreleased: true
+          draft: ${{ github.event_name == 'pull_request' }}
+          tag: "${{ env.RELEASE_NAME }}"
