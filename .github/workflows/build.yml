@@ -53,6 +53,6 @@ jobs:
           artifacts: "bajja.txt, bajja2.txt"
           prerelease: false
           allowUpdates: true
-          updateOnlyUnreleased: true
+          updateOnlyUnreleased: false
           draft: ${{ github.event_name == 'pull_request' }}
           tag: "${{ env.RELEASE_NAME }}"
