@@ -1,4 +1,4 @@
-name: Build
+name: Build 1
 
 on: 
   pull_request:
@@ -46,7 +46,7 @@ jobs:
       - name: Create file2
         run: |
           echo > bajja2.txt
-          ./something.sh
+          .github/workflows/something.sh
 
       - name: Release
         uses: ncipollo/release-action@v1
