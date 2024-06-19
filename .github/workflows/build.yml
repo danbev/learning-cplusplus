@@ -46,6 +46,7 @@ jobs:
       - name: Create file2
         run: |
           echo > bajja2.txt
+          ./something.sh
 
       - name: Release
         uses: ncipollo/release-action@v1
