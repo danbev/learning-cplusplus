@@ -1,4 +1,4 @@
-name: Build 1
+name: Build   
 
 on: 
   pull_request:
@@ -11,6 +11,20 @@ on:
         description: 'Manual tag for releases'
         required: false
         default: 'manual-trigger'
+      job1:
+        type: choice
+        description: 'Run Job 1'
+        options:
+          - 'true'
+          - 'false'
+        default: 'true'
+      job2:
+        type: choice
+        description: 'Run Job 2'
+        options:
+          - 'true'
+          - 'false'
+        default: 'true'
 
 jobs:
 
