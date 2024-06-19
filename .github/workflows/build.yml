@@ -71,3 +71,18 @@ jobs:
           updateOnlyUnreleased: false
           draft: ${{ github.event_name == 'pull_request' }}
           tag: "${{ env.RELEASE_NAME }}"
+
+          jobs:
+  job1:
+    if: ${{ github.event.inputs.job1 == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute Job 1
+        run: echo "Job 1 is running"
+
+  job2:
+    if: ${{ github.event.inputs.job2 == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute Job 2
+        run: echo "Job 2 is running"
