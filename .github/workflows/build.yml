@@ -60,7 +60,7 @@ jobs:
       - name: Create file2
         run: |
           echo > bajja2.txt
-          .github/workflows/something.sh
+          #.github/workflows/something.sh
 
       - name: Release
         uses: ncipollo/release-action@v1
