@@ -1,4 +1,4 @@
-name: Build   
+name: Build-1
 
 on: 
   pull_request:
@@ -68,7 +68,7 @@ jobs:
       - name: Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "bajja.txt, bajja2.txt output/*"
+          artifacts: "bajja.txt, bajja2.txt, output/*"
           prerelease: false
           allowUpdates: true
           updateOnlyUnreleased: false
