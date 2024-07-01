@@ -68,7 +68,7 @@ jobs:
       - name: Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "bajja.txt, bajja2.txt, output/FS.Name.txt"
+          artifacts: "bajja.txt, bajja2.txt, output/'FS Name.txt'"
           prerelease: false
           allowUpdates: true
           updateOnlyUnreleased: false
