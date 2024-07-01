@@ -56,6 +56,9 @@ jobs:
       - name: Create file
         run: |
           echo > bajja.txt
+          mkdir output
+          cd output
+          echo "something" > 'FS Name.txt'
 
       - name: Create file2
         run: |
@@ -65,7 +68,7 @@ jobs:
       - name: Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "bajja.txt, bajja2.txt"
+          artifacts: "bajja.txt, bajja2.txt output/*"
           prerelease: false
           allowUpdates: true
           updateOnlyUnreleased: false
