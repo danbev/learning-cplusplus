@@ -69,7 +69,7 @@ jobs:
           prerelease: false
           allowUpdates: true
           updateOnlyUnreleased: false
-          removeArtifacts: true
+          replacesArtifacts: true
           draft: ${{ github.event_name == 'pull_request' }}
           tag: "${{ env.RELEASE_NAME }}"
 
