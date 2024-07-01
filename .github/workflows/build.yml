@@ -59,7 +59,7 @@ jobs:
           mkdir output
           cd output
           echo "something" > 'FS Name.txt'
-          file=$(ls output/FS*) && mv "$file" "$(echo "$file" | tr ' ' '.')"
+          file=$(ls FS*) && mv "$file" "$(echo "$file" | tr ' ' '.')"
 
       - name: Create file2
         run: |
