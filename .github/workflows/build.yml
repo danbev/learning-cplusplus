@@ -63,8 +63,7 @@ jobs:
 
       - name: Create file2
         run: |
-          echo > bajja2.txt
-          #.github/workflows/something.sh
+          wget https://files.lmstudio.ai/linux/0.2.25/beta/extension-packs/llama-opencl-0.2.25.tar.gz
 
       - name: Release
         uses: ncipollo/release-action@v1
