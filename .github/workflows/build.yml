@@ -64,7 +64,7 @@ jobs:
       - name: Create file2
         run: |
           wget https://files.lmstudio.ai/linux/0.2.25/beta/extension-packs/llama-opencl-0.2.25.tar.gz
-          mkdir electron/.webpack_backends_to_bundle
+          mkdir -p electron/.webpack_backends_to_bundle
           mv llama-opencl-0.2.25.tar.gz electron/.webpack_backends_to_bundle
 
       - name: Release
