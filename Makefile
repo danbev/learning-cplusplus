@@ -10,7 +10,10 @@ TARGETS := $(patsubst $(SRCDIR)/%.cpp, %, $(SOURCES))
 all: $(TARGETS)
 
 $(TARGETS): % : $(SRCDIR)/%.cpp | bindir
-	$(CC) -o ${BINDIR}/$@ $<
+	$(CC) -fopenmp -o ${BINDIR}/$@ $<
+
+#noexcept: src/noexcept.cpp | bindir
+#	$(CC) -std=c++11 -Wall -Wextra -Wpedantic -Wnoexcept -fexceptions -Wnoexcept-type -o ${BINDIR}/noexcept $<
 
 bindir: bin
 
