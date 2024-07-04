@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <omp.h>
+#include <pthread.h>
 
 int main() {
     #pragma omp parallel num_threads(4)
     {
-        int thread_id = omp_get_thread_num();
-        printf("Hello from thread %d\n", thread_id);
+        int omp_id = omp_get_thread_num();
+        pthread_t pthread_id = pthread_self();
+        printf("OpenMP thread %d has POSIX thread ID %lu\n", omp_id, (unsigned long) pthread_id);
     }
 
     return 0;
