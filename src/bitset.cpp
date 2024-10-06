@@ -10,7 +10,7 @@
 #define BITSET_MASK (sizeof(uint32_t) * 8 - 1)
 
 // This function is used to calculate the number of elements that are needed
-// in for the used array in the hash_set struct.
+// for the used array (array of uinit32_t) in the hash_set struct.
 //
 // n is the number of bits we want to be able to store.
 //
