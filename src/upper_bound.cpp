@@ -20,5 +20,8 @@ int main() {
         std::cout << "No number greater than " << target << " found." << std::endl;
     }
 
+    std::cout << "Finding the first number greater than " << 2 << std::endl;
+    auto it2 = std::upper_bound(numbers.begin(), numbers.end() - 5, 2);
+    printf("it2 = %d\n", *it2);
     return 0;
 }
