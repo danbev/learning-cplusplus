@@ -4,7 +4,9 @@
 #include "vision.h"
 
 struct vision {
+    vision_type type;
     char* name;
+    uint32_t image_width;
 
     void (*something_fn)(const struct vision*);
 };
@@ -13,12 +15,14 @@ static void vision_something_impl(const vision* vision) {
     printf("%s something...\n", vision->name);
 }
 
-vision* vision_create(vision_type type) {
-    switch(type) {
+vision* vision_create(vision_hparams params) {
+    switch(params.type) {
 	    case VISION_GENERIC:
 		{
 		vision* v = (vision*) malloc(sizeof(vision));
 		if (v) {
+            v->type = params.type;
+            v->image_width = params.image_width;
 		    v->name = strdup("generic");
 		    v->something_fn = vision_something_impl;
 		}
@@ -28,6 +32,8 @@ vision* vision_create(vision_type type) {
 		{
 		vision* v = (vision*) malloc(sizeof(vision));
 		if (v) {
+            v->type = params.type;
+            v->image_width = params.image_width;
 		    v->name = strdup("clip");
 		    v->something_fn = vision_something_impl;
 		}

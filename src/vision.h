@@ -16,9 +16,10 @@ enum vision_type {
 struct vision_hparams {
     vision_type type;
     uint32_t image_width;
+    uint32_t image_height;
 };
 
-vision*     vision_create(vision_type type);
+vision*     vision_create(vision_hparams type);
 void        vision_destroy(vision* v);
 
 void        vision_something(const vision* v);

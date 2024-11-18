@@ -2,9 +2,12 @@
 #include "vision.h"
 
 int main(int argc, char** argv) {
-    vision* generic = vision_create(VISION_GENERIC);
+    vision_hparams g_params = {VISION_GENERIC, 640, 480};
+    vision* generic = vision_create(g_params);
     printf("Vision name: %s\n", vision_get_name(generic));
-    vision* clip = vision_create(VISION_CLIP);
+
+    vision_hparams c_params = {VISION_CLIP, 1280, 720};
+    vision* clip = vision_create(c_params);
     printf("Vision name: %s\n", vision_get_name(clip));
     
     vision_something(generic);
