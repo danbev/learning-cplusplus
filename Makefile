@@ -7,7 +7,7 @@ TARGETS := $(patsubst $(SRCDIR)/%.cpp, %, $(SOURCES))
 
 CXXFLAGS = -std=c++11 -Wall -Wextra -Wpedantic -Wnoexcept -fexceptions -Wnoexcept-type
 CXXFLAGS += -I./external/cpp-httplib -DCPPHTTPLIB_OPENSSL_SUPPORT
-LDFLAGS = -lssl -lcrypto
+#LDFLAGS = -lssl -lcrypto
 
 .PHONY: all clean
 
@@ -32,3 +32,6 @@ clean:
 
 curl-http-server:
 	curl http://localhost:8080/something
+
+vision-main: src/vision.cpp
+	$(CC) -Isrc -std=c++11 -Wall -Wextra -Wpedantic -g -o bin/vision-main src/vision.cpp src/vision-main.c
