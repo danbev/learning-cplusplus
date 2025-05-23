@@ -10,6 +10,10 @@ void process_data(int id, std::string data, bool verbose) {
     }
 }
 
+void process_ref_data(int id, std::string& data) {
+    std::cout << "ID " << id << ": " << data << std::endl;
+}
+
 class DataProcessor {
 public:
     void process(int id, std::string data) {
@@ -38,6 +42,14 @@ int main() {
                                 false);                       // bind verbose to false
     
     id_processor("bajja 2");
+
+    std::string name = "Fletch";
+    auto ref_processor = std::bind(process_ref_data,
+                                1,
+                                //std::ref(name));
+                                name);
+    name.append(" 2");
+    ref_processor();
 
     // Example 2: Member Function Binding
     std::cout << "\n--- Member Function Binding ---\n";
