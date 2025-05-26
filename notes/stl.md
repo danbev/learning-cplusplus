@@ -249,3 +249,117 @@ bin/vector:     file format elf64-x86-64
 0000000000001672  w    F .text	000000000000002a              std::_Vector_base<int, std::allocator<int> >::_Vector_base(std::allocator<int> const&)
 0000000000001612  w    F .text	0000000000000027              std::vector<int, std::allocator<int> >::size() const
 ```
+
+### Iterators
+Header is in /usr/include/c++/13/iterator.
+```c++
+#include <bits/c++config.h>
+#include <bits/stl_iterator_base_types.h>
+#include <bits/stl_iterator_base_funcs.h>
+#include <bits/stl_iterator.h>
+#if _GLIBCXX_HOSTED
+# include <bits/stream_iterator.h>
+# include <bits/streambuf_iterator.h>
+#endif
+#include <bits/range_access.h>
+
+#if __cplusplus >= 201402L
+# define __cpp_lib_null_iterators 201304L
+#endif
+
+#if __cplusplus >= 202002L
+#include <bits/ranges_base.h> // ranges::distance, ranges::next, ranges::prev
+#endif
+```
+
+
+### std::string
+
+In `/usr/include/c++/13/string` we find:
+```c++
+#include <bits/requires_hosted.h> // containers
+
+#include <bits/c++config.h>
+#include <bits/stringfwd.h>
+#include <bits/char_traits.h>
+#include <bits/allocator.h>
+#include <bits/cpp_type_traits.h>
+...
+```
+We have discussed `allocator.h` and `c++config.h` already, so I'll skip them
+here.
+
+Now, `stringfwd.h` only contains forward declarations and typedefs.
+```c++
+  template<class _CharT>
+  struct char_traits;
+
+  template<>
+  struct char_traits<char>;
+
+  template<>
+  struct char_traits<wchar_t>;
+
+  template<typename _CharT,
+           typename _Traits = char_traits<_CharT>,
+           typename _Alloc = allocator<_CharT> >
+  class basic_string;
+```
+So lets just think about this, when we write `#include <string>` what we
+actually get is the constents of these includes in our file.
+
+And notice that `char_traits` is just a struct with a template similar to what
+we have in our [traits.cpp](../src/traits.cpp) example.
+
+And the we declare a `basic_string` class template that takes a character type
+a character traits type, and an allocator type.
+
+And then we declare the following types of `basic_string`:
+```c++
+typedef basic_string<char>    string;    // Available since C++98
+typedef basic_string<wchar_t> wstring;   // Available since C++98
+
+typedef basic_string<char16_t> u16string; // New in C++11
+typedef basic_string<char32_t> u32string; // New in C++11
+
+typedef basic_string<char8_t> u8string;  // New in C++20
+```
+
+Next lets looks at the `char_traits.h` header:
+```c++
+
+#ifndef _CHAR_TRAITS_H
+#define _CHAR_TRAITS_H 1
+
+#pragma GCC system_header
+
+#include <bits/c++config.h>
+
+#if _GLIBCXX_HOSTED
+# include <bits/postypes.h>     // For streampos
+#endif // HOSTED
+
+#ifdef _GLIBCXX_USE_WCHAR_T
+# include <cwchar>              // For WEOF, wmemmove, wmemset, etc.
+#endif // USE_WCHAR_T
+```
+The wchar is for wide characters and sort of legacy but still used on windows
+for some APIs.
+
+Next we have:
+```c++
+#if __cplusplus >= 201103L
+# include <type_traits>
+#if !defined __UINT_LEAST16_TYPE__ || !defined __UINT_LEAST32_TYPE__
+# include <cstdint>
+#endif
+#endif
+```
+So we if we are using C++11 or later we include the `type_traits` header.
+
+```c++
+#if __cplusplus >= 202002L
+# include <compare>
+# include <bits/stl_construct.h>
+#endif
+```
