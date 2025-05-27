@@ -144,3 +144,8 @@ CXXABI_1.3.13
 CXXABI_FLOAT128
 CXXABI_TM_1
 ```                                                                                        
+
+### cpp-httplib
+```console
+$ sudo apt install libssl-dev
+```
