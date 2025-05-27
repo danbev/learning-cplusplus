@@ -163,6 +163,39 @@ and L is Long suffix (like can be used for integer literals that is).
 * 202300L is C++23 (std::expected, std::flat_map, std::flat_set)
 
 
+### Symbol Versioning
+```c++
+namespace std _GLIBCXX_VISIBILITY(default)
+{
+_GLIBCXX_BEGIN_NAMESPACE_VERSION
+
+    ...
+
+_GLIBCXX_END_NAMESPACE_VERSION
+```
+
+And in `c++config.h` we have:
+```c++
+# define _GLIBCXX_INLINE_VERSION 0 
+
+#if _GLIBCXX_INLINE_VERSION
+// Inline namespace for symbol versioning of (nearly) everything in std.
+# define _GLIBCXX_BEGIN_NAMESPACE_VERSION namespace __8 {
+# define _GLIBCXX_END_NAMESPACE_VERSION }
+```
+So if `_GLIBCXX_INLINE_VERSION` is defined then there will be an inline namespace
+which recall is a namespace that can still be access by the original/parent
+namespace (but also directly if needed). So this can enable if needed by adding
+new features by creating a non-inline namespace for the previous version which
+means it can be be accessed explicitely if needed, but the new version will
+be the default one. So they remove the inline from the namespace declaration for
+the previous version and enable it for the current/new version.
+
+Notice that this is disabled by default which means that there is no versions
+currently because there are some drawbacks like increased binary size and also
+it could disrupt Linux distributions. But there functionality is still there if
+it is needed in the future.
+
 ### c++config.h
 This file is included in many of the standard library headers and is located
 in: 
@@ -362,4 +395,78 @@ So we if we are using C++11 or later we include the `type_traits` header.
 # include <compare>
 # include <bits/stl_construct.h>
 #endif
+```
+
+### memory
+This header contains things like `std::unique_ptr`, `std::shared_ptr`.
+```c++
+#pragma GCC system_header
+
+#include <bits/memoryfwd.h>
+
+...
+
+#if _GLIBCXX_HOSTED
+  template<typename>
+    class allocator;
+
+  template<>
+    class allocator<void>;
+#endif
+```
+`_GLIBCXX_HOSTED` is defined if the standard library is hosted, which means
+that it is running on a system with an operating system and a standard library.
+So things like File, I/O, threads etc. are available.
+The alternative is a freestanding implementation, like in a bare metal
+environment where we don't have an operating system or a standard library. Like
+we use for IoT devices or embedded systems.
+```c++
+#if __cplusplus >= 201103L
+  /// Declare uses_allocator so it can be specialized in `<queue>` etc.
+  template<typename, typename>
+    struct uses_allocator;
+
+  template<typename>
+    struct allocator_traits;
+#endif
+```
+These are just forward declarations of the `uses_allocator` and `allocator_traits`
+and hence they don't have names for their template parameters.
+
+
+```
+  template<typename _Tp, typename... _Args>
+    _GLIBCXX23_CONSTEXPR
+    inline __detail::__unique_ptr_t<_Tp>
+    make_unique(_Args&&... __args)
+    { return unique_ptr<_Tp>(new _Tp(std::forward<_Args>(__args)...)); }
+```
+So we first have a possible constexpr specifier or not, followed by the inline
+keyword and then the return type which is `__detail::__unique_ptr_t<_Tp>`.
+The we have the name of the function and the parameters are the variadic template
+parameters. And just to break this down a bit it is calling the type's constructor
+with new so this is creating an instance on the heap for this type. The arguments
+to the constructor are forwarded (might not copy depending if the argument is an
+lvalue or rvalue). The returned pointer is then passed to the `unique_ptr`
+constructor:
+```c++
+    template<typename _Del = _Dp, typename = _DeleterConstraint<_Del>>
+	_GLIBCXX23_CONSTEXPR explicit unique_ptr(pointer __p) noexcept : _M_t(__p)
+    { }
+```
+
+```c++
+  template <typename _Tp, typename _Dp = default_delete<_Tp>>
+    class unique_ptr
+    {
+      template <typename _Up>
+      using _DeleterConstraint = typename __uniq_ptr_impl<_Tp, _Up>::_DeleterConstraint::type;
+
+      __uniq_ptr_data<_Tp, _Dp> _M_t;
+
+    public:
+      using pointer	  = typename __uniq_ptr_impl<_Tp, _Dp>::pointer;
+      using element_type  = _Tp;
+      using deleter_type  = _Dp;
+
 ```
