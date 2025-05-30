@@ -29,12 +29,35 @@ struct cache_unfriendly {
     int32_t data[20]; // 80 bytes - spans multiple cache lines
 };
 
-int main() {
-    printf("Size of non_aligned   : %zu\n", sizeof(non_aligned));
-    printf("Size of better_aligned: %zu\n", sizeof(better_aligned));
-    printf("Size of packed_struct : %zu\n", sizeof(packed_struct));
-    printf("Size of cache_friendly: %zu\n", sizeof(cache_friendly));
-    printf("Size of cache_unfriendly: %zu\n", sizeof(cache_unfriendly));
+void print_type_alignments() {
+    printf("=== TYPE ALIGNMENT REQUIREMENTS ===\n\n");
 
+    printf("Type alignments on this system:\n");
+    printf("char:      %zu byte alignment\n", alignof(char));
+    printf("short:     %zu byte alignment\n", alignof(short));
+    printf("int:       %zu byte alignment\n", alignof(int));
+    printf("long:      %zu byte alignment\n", alignof(long));
+    printf("long long: %zu byte alignment\n", alignof(long long));
+    printf("float:     %zu byte alignment\n", alignof(float));
+    printf("double:    %zu byte alignment\n", alignof(double));
+    printf("pointer:   %zu byte alignment\n", alignof(void*));
+    printf("\n");
+
+    printf("What this means:\n");
+    printf("- char can start at ANY address                 (0, 1, 2, 3, 4, 5, ...)\n");
+    printf("- short must start at EVEN addresses            (0, 2, 4, 6, 8, ...)\n");
+    printf("- int must start at addresses divisible by 4    (0, 4, 8, 12, ...)\n");
+    printf("- double must start at addresses divisible by 8 (0, 8, 16, 24, ...)\n");
+    printf("\n");
+}
+
+int main() {
+    printf("Size of non_aligned   : %zu, alignof: %zu\n", sizeof(non_aligned), alignof(non_aligned));
+    printf("Size of better_aligned: %zu, alignof: %zu\n", sizeof(better_aligned), alignof(better_aligned));
+    printf("Size of packed_struct : %zu, alignof: %zu\n", sizeof(packed_struct), alignof(packed_struct));
+    printf("Size of cache_friendly: %zu, alignof: %zu\n", sizeof(cache_friendly), alignof(cache_friendly));
+    printf("Size of cache_unfriendly: %zu, alignof: %zu\n", sizeof(cache_unfriendly), alignof(cache_unfriendly));
+
+    print_type_alignments();
     return 0;
 }
