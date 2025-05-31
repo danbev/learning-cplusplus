@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <vector>
 
 struct non_aligned {
     bool a;  // 1 byte.
@@ -29,6 +30,14 @@ struct cache_unfriendly {
     int32_t data[20]; // 80 bytes - spans multiple cache lines
 };
 
+struct struct_with_vector {
+    std::vector<int> vec;
+    // int * data_ptr 8 bytes (on 64-bit systems)
+    // size_t size 8 bytes (current number of elements)
+    // size_t capacity 8 bytes (total allocated space)
+    // The largest member is 8 in this case which is the alignment requirement.
+};
+
 void print_type_alignments() {
     printf("=== TYPE ALIGNMENT REQUIREMENTS ===\n\n");
 
@@ -57,6 +66,7 @@ int main() {
     printf("Size of packed_struct : %zu, alignof: %zu\n", sizeof(packed_struct), alignof(packed_struct));
     printf("Size of cache_friendly: %zu, alignof: %zu\n", sizeof(cache_friendly), alignof(cache_friendly));
     printf("Size of cache_unfriendly: %zu, alignof: %zu\n", sizeof(cache_unfriendly), alignof(cache_unfriendly));
+    printf("Size of struct_with_vector: %zu, alignof: %zu\n", sizeof(struct_with_vector), alignof(struct_with_vector));
 
     print_type_alignments();
     return 0;
