@@ -36,3 +36,5 @@ curl-http-server:
 
 vision-main: src/vision.cpp
 	$(CC) -Isrc -std=c++11 -Wall -Wextra -Wpedantic -g -o bin/vision-main src/vision.cpp src/vision-main.c
+
+sum-doubles-avx2: CXXFLAGS += -mavx2
