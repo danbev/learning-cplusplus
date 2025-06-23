@@ -9,6 +9,10 @@ static int round_nearsest(float fval) {
     // But this is not the case for floating point numbers, because the conversion
     // and often involves the compiler calling _ftol or similar functions which
     // can be slow.
+    // The default rounding mode in the FPU is round to nearest, but the c
+    // standard is round towards zero. So there is additional work that has to
+    // be done in the FPU to switch rounding modes (and back again).
+    //
     // The magic number 12582912.f is 2²³ + 2²², and when we add this to our
     // float value it will cause the float to be rounded to the nearest integer
     // but it is a different value than the original. But the nice thing is that
