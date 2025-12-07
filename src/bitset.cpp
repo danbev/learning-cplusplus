@@ -69,14 +69,13 @@ static size_t hash_find_idx(const struct hash_set* hash_set, struct things* key)
 
     // linear probing
     size_t i = h;
-    // While the the index i is set, and the key at the index i is not the key we are
-    // looking for we increment the index i by one.
+    // While the index i is set, and the key at the index i is not the key we are
+    // looking for, we increment the index i by one.
     while (bitset_isset(hash_set->used, i) && hash_set->keys[i] != key) {
-	// We increment the slot by one and need to make sure that if we reach the end
-	// of the range we wrap around to the beginning of the range.
+        // We increment the slot by one and need to make sure that if we reach the end
+        // of the range we wrap around to the beginning of the range.
         i = (i + 1) % hash_set->size;
-	// If i is the same value that we started off with then we have checked all
-	// slots.
+        // If i is the same value that we started off with then we have checked all slots.
         if (i == h) {
             return HASHSET_FULL;
         }
@@ -95,8 +94,8 @@ static size_t hash_insert(struct hash_set* hash_set, struct things* key) {
     // linear probing
     size_t i = h;
     do {
-	// If the slot is not set then we set the slot as used and set the
-	// key at that index to the key.
+        // If the slot is not set then we set the slot as used and set the
+        // key at that index to the key.
         if (!bitset_isset(hash_set->used, i)) {
             bitset_set(hash_set->used, i);
             hash_set->keys[i] = key;
@@ -106,9 +105,9 @@ static size_t hash_insert(struct hash_set* hash_set, struct things* key) {
         if (hash_set->keys[i] == key) {
             return HASHSET_ALREADY_EXISTS;
         }
-	// We increment the slot by one and need to make sure that if we reach the end
-	// of the range we wrap around to the beginning of the range. Same as we did in
-	// the hash_find_idx function.
+        // We increment the slot by one and need to make sure that if we reach the end
+        // of the range we wrap around to the beginning of the range. Same as we did in
+        // the hash_find_idx function.
         i = (i + 1) % hash_set->size;
     } while (i != h);
 
