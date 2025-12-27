@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <variant>
 #include <string>
+#include <iostream>
 
 int main(int argc, char** argv) {
     printf("std::variant example\n");
@@ -23,6 +24,17 @@ int main(int argc, char** argv) {
     v = "Hello World";
     std::string s = std::get<std::string>(v);
     printf("String value: %s\n", s.c_str());
+
+    if (auto pval = std::get_if<int>(&v)) {
+        printf("It's an int: %d ", *pval);
+    } else {
+        printf("It's not an int.\n");
+    }
+
+    auto print_visitor = [](const auto& val) {
+        std::cout << "Value: " << val << '\n';
+    };
+    std::visit(print_visitor, v);
 
     return 0;
 }
