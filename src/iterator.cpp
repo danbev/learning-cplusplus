@@ -31,6 +31,7 @@ public:
             // Post increment returns a copy of the current state so we need
             // to create a temporary to return
             Iterator tmp = *this;
+            printf("Post-incrementing iterator pointing to %d\n", *m_ptr);
             ++(*this);
             return tmp;
         }
@@ -63,7 +64,7 @@ public:
     }
 
 private:
-    constexpr static std::size_t SIZE = 200;
+    constexpr static std::size_t SIZE = 10;
     int m_data[SIZE];
 };
 
@@ -72,5 +73,9 @@ int main() {
     for (auto i : integers) {
         std::cout << i << "\n";
     }
+    for (auto it = integers.begin(); it != integers.end(); ++it) {
+        std::cout << *it << "\n";
+    }
+
     return 0;
 }
