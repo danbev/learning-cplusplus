@@ -7,7 +7,7 @@ TARGETS := $(patsubst $(SRCDIR)/%.cpp, %, $(SOURCES))
 
 CXXFLAGS = -std=c++20 -Wall -Wextra -Wpedantic -Wnoexcept -fexceptions -Wnoexcept-type
 #CXXFLAGS += -I./external/cpp-httplib -DCPPHTTPLIB_OPENSSL_SUPPORT
-CXXFLAGS += -I./external/cpp-httplib
+CXXFLAGS += -I./external/cpp-httplib -I./src
 #LDFLAGS = -lssl -lcrypto
 
 .PHONY: all clean
